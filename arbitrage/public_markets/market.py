@@ -4,7 +4,9 @@ import urllib.error
 import urllib.parse
 import config
 import logging
+import sys
 from fiatconverter import FiatConverter
+from utils import log_exception
 
 class GetDepthException(Exception):
     pass
@@ -49,6 +51,7 @@ class Market(object):
             logging.error("HTTPError, can't update market: %s code=%d reason=%s headers=%s" % (self.name, e.code, e.reason, e.headers))
         except Exception as e:
             logging.error("Can't update market: %s - %s" % (self.name, str(e)))
+            log_exception(logging.DEBUG)
 
     def get_ticker(self):
         depth = self.get_depth()
