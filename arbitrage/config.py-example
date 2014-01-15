@@ -1,6 +1,6 @@
 # watch the following markets
 # ["MtGoxEUR", "BitcoinCentralEUR", "IntersangoEUR", "Bitcoin24EUR",
-# "BitstampEUR", "BtceUSD", "MtGoxUSD", "BitfloorUSD", "BitstampUSD"]
+# "BitstampEUR", "BtceUSD", "MtGoxUSD", "BitfloorUSD", "BitstampUSD", "BterUSD", "CoinsEUSD"]
 markets = ["BtceUSD", "MtGoxUSD", "BitstampUSD", "CampBXUSD", "BitcoinCentralUSD",
            "Bitcoin24USD"]  # BitfloorUSD (closed)
 
@@ -12,6 +12,13 @@ market_expiration_time = 120  # in seconds: 2 minutes
 
 refresh_rate = 20
 
+# Arbitrage pair, parameter is to allow for more pairs to be traded than BTC_USD and BTC_EUR
+pair = "BTC_USD"
+#pair = "DTC_BTC"
+#pair = "LTC_BTC"
+# Only certain exchanges support altcoins, MtGox and Bitstamp will give error for other than BTC_USD pair
+# Bter supports BTC_CNY and many altcoins but NOT BTC_USD
+
 #### Trader Bot Config
 # Access to Private APIs
 mtgox_key = "FIXME"
@@ -21,8 +28,18 @@ bitcoincentral_username = "FIXME"
 bitcoincentral_password = "FIXME"
 bitcoincentral_address = "FIXME"  # to deposit btc from markets / wallets
 
-bitstamp_username = "FIXME"
-bitstamp_password = "FIXME"
+# Fixed the bitstamp code to work properly, username and password no longer used
+#bitstamp_username = "FIXME"
+#bitstamp_password = "FIXME"
+bitstamp_client_id = "FIXME"
+bitstamp_api_key = "FIXME"
+bitstamp_api_secret = "FIXME"
+
+btce_api_key = "FIXME"
+btce_api_secret = "FIXME"
+
+bter_api_key = "FIXME"
+bter_api_secret = "FIXME"
 
 # SafeGuards
 max_tx_volume = 10  # in BTC
