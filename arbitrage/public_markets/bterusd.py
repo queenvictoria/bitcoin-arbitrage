@@ -5,32 +5,31 @@ import json
 import logging
 from .market import Market
 
-class CoinsEUSD(Market):
+class BterUSD(Market):
     def __init__(self):
-        super(CoinsEUSD, self).__init__("USD")
+        super(BterUSD, self).__init__("USD")
         self.update_rate = 20
         self.depth = {'asks': [{'price': 0, 'amount': 0}], 'bids': [
             {'price': 0, 'amount': 0}]}
 
     def update_depth(self):
         res = urllib.request.urlopen(
-            'https://www.coins-e.com/api/v2/market/' + self.pair + '/depth/')
+            'https://bter.com/api/1/depth/' + str.lower(self.pair) )
         jsonstr = res.read().decode('utf8')
         try:
             data = json.loads(jsonstr)
         except Exception:
             logging.error("%s - Can't parse json: %s" % (self.name, jsonstr))
-        if data["message"] == "success":
-            self.depth = self.format_depth(data["marketdepth"])
+        if data["result"] == "true":
+            self.depth = self.format_depth(data)
         else:
             logging.error("%s - fetched data error" % (self.name))
 
     def sort_and_format(self, l, reverse=False):
-        l.sort(key=lambda x: float(x["r"]), reverse=reverse)
+        l.sort(key=lambda x: float(x[0]), reverse=reverse)
         r = []
         for i in l:
-            r.append({'price': float(i[
-                     "r"]), 'amount': float(i["q"])})
+            r.append({'price': float(i[0]), 'amount': float(i[1])})
         return r
 
     def format_depth(self, depth):
@@ -39,5 +38,5 @@ class CoinsEUSD(Market):
         return {'asks': asks, 'bids': bids}
 
 if __name__ == "__main__":
-    market = CoinsEUSD()
+    market = BterUSD()
     print(market.get_depth())

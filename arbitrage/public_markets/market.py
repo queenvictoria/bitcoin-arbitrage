@@ -11,6 +11,7 @@ class Market(object):
     def __init__(self, currency):
         self.name = self.__class__.__name__
         self.currency = currency
+        self.pair = config.pair
         self.depth_updated = 0
         self.update_rate = 60
         self.fc = FiatConverter()

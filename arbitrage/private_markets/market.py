@@ -6,6 +6,9 @@ from fiatconverter import FiatConverter
 class TradeException(Exception):
     pass
 
+class GetInfoException(Exception):
+    pass
+
 class Market:
     def __init__(self):
         self.name = self.__class__.__name__

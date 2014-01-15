@@ -51,6 +51,8 @@ class ArbitrerCLI:
                             help="observers, example: -oLogger,Emailer")
         parser.add_argument("-m", "--markets", type=str,
                             help="markets, example: -mMtGox,Bitstamp")
+        parser.add_argument("-l", "--logfile", type=str,
+                            help="logfile, log output to file, example: -l/var/log/arb.log")
         parser.add_argument("command", nargs='*', default="watch",
                             help='verb: "watch|replay-history|get-balance"')
         args = parser.parse_args()
@@ -59,8 +61,13 @@ class ArbitrerCLI:
             level = logging.VERBOSE
         if args.debug:
             level = logging.DEBUG
+        if args.logfile:            
+            fnames = args.logfile.split(',')
+            fname = fnames[0]            
+        else:
+            fname = None
         logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s',
-                            level=level)
+                            level=level, filename=fname)
         self.create_arbitrer(args)
         self.exec_command(args)
 

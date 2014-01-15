@@ -31,7 +31,7 @@ class FiatConverter:
         data = json.loads(res.read().decode('utf8'))
         rate = 0
         if "rate" in data:
-            rate = data["rate"] * (1.0 - self.bank_fee)
+            rate = float(data["rate"]) * (1.0 - self.bank_fee)
         else:
             logging.error("Can't update fiat conversion rate: %s", url)
         return rate
@@ -48,9 +48,9 @@ class FiatConverter:
             return
         code_from = "USD"
         try:
-            rate = self.get_currency_pair(code_from, code_to)
+            rate = float(self.get_currency_pair(code_from, code_to))
         except urllib.error.HTTPError:
-            rate = self.get_currency_pair_yahoo(code_from, code_to)
+            rate = float(self.get_currency_pair_yahoo(code_from, code_to))
         if rate:
             self.rates[code_to] = rate
 
@@ -64,8 +64,8 @@ class FiatConverter:
 
     def convert(self, price, code_from, code_to):
         self.update()
-        rate_from = self.rates[code_from]
-        rate_to = self.rates[code_to]
+        rate_from = float(self.rates[code_from])
+        rate_to = float(self.rates[code_to])
         return price / rate_from * rate_to
 
 
