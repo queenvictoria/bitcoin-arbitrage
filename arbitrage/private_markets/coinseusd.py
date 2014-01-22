@@ -12,14 +12,14 @@ import json
 import config
 import requests
 
-class PrivateBterUSD(Market):
-    placeorder_url = "https://bter.com/api/1/private/placeorder"
-    getfunds_url = "https://bter.com/api/1/private/getfunds"
+class PrivateCoinsEUSD(Market):
+    placeorder_url = "https://www.coins-e.com/api/v2/market/"
+    getfunds_url = "https://www.coins-e.com/api/v2/wallet/all/"
     def __init__(self):
         super().__init__()
         self.proxydict = None
-        self.api_key = config.bter_api_key
-        self.api_secret = config.bter_api_secret
+        self.api_key = config.coinse_api_key
+        self.api_secret = config.coinse_api_secret
         self.currency = "USD"
         self.get_info()        
         
@@ -38,58 +38,52 @@ class PrivateBterUSD(Market):
             
         headers = {
             'Content-type': "application/x-www-form-urlencoded",
-            'Key': self.api_key,
-            'Sign': signature
+            'key': self.api_key,
+            'sign': signature
         }
         if extra_headers is not None:
             for k, v in extra_headers.items():
                 headers[k] = v
         response = requests.post(api_url, data=message, headers=headers)        
         code = response.status_code
-        if code == 200:
-            print(response.json())
-            if 'message' in response.json():
-                if 'Error' in str.split(response.json()["message"], ': '):
-                    return False, response.json()["message"]            
+        if code == 200:            
+            if 'error' in response.json():
+                return False, response.json()['error']
             else:
                 return response.json()
         return None
 
     def _buy(self, amount, price):
         """Create a buy limit order"""
-        params = {"pair": str.lower(self.pair), "type" : "BUY", "rate" : price, "amount" : amount}
-        response = self._send_request(self.placeorder_url, params)        
-        if "false" in response:
-            raise TradeException(response["msg"])
+        params = {"method": "neworder", "order_type" : "buy", "rate" : price, "quantity" : amount}
+        response = self._send_request(self.placeorder_url + self.pair + "/", params)        
+        if False in response:
+            raise TradeException(response["message"])
 
     def _sell(self, amount, price):
         """Create a sell limit order"""
-        params = {"pair": str.lower(self.pair), "type" : "SELL", "rate" : price, "amount" : amount}
-        response = self._send_request(self.placeorder_url, params)
-        if "false" in response:
-            raise TradeException(response["msg"])
+        params = {"method": "neworder", "order_type" : "sell", "rate" : price, "quantity" : amount}
+        response = self._send_request(self.placeorder_url + self.pair + "/", params)
+        if False in response:
+            raise TradeException(response["message"])
 
     def get_info(self):
         """Get balance"""
-        response = self._send_request(self.getfunds_url)
+        params = {"method": "getwallets"}        
+        response = self._send_request(self.getfunds_url, params)
         if response:
-            #print(json.dumps(response))
-            # retrieve data too fast            
-            if False in response:
-                raise GetInfoException(response[1])
-            if "false" in response:
-                raise GetInfoException(response["msg"])
-            funds = None
-            if response["available_funds"]:
-                funds = response["available_funds"]
+            print(json.dumps(response))
+            if response["message"] != "success":
+                raise GetInfoException(response["message"])
+            funds = response["wallets"]
             if funds:
                 if "BTC" in funds:
-                    self.btc_balance = float(funds["BTC"])
-                # USD is not supported (yet) by Bter
+                    self.btc_balance = float((funds["BTC"])["a"])
+                # USD is not supported (yet) by Coins-e
                 self.usd_balance = float(0.0)
                 if self.pair1_name in funds:
-                    self.pair1_balance = float(funds[self.pair1_name])
+                    self.pair1_balance = float((funds[self.pair1_name])["a"])
                 if self.pair2_name in funds:
-                    self.pair2_balance = float(funds[self.pair2_name])
+                    self.pair2_balance = float((funds[self.pair2_name])["a"])
             else:
                 raise GetInfoException("Critical error no balances received")

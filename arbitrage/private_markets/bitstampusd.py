@@ -1,6 +1,6 @@
 # Copyright (C) 2013, Maxime Biais <maxime@biais.org>
 
-from .market import Market, TradeException
+from .market import Market, TradeException, GetInfoException
 import time
 import base64
 import hmac
@@ -80,8 +80,14 @@ class PrivateBitstampUSD(Market):
 
     def get_info(self):
         """Get balance"""
-        response = self._send_request(self.balance_url)        
+        response = self._send_request(self.balance_url)
+        if False in response:
+            raise GetInfoException(response[1])
         if response:
-            print(json.dumps(response))            
+            #print(json.dumps(response))            
             self.btc_balance = float(response["btc_available"])
             self.usd_balance = float(response["usd_available"])
+            self.pair1_balance = float(response[str.lower(self.pair1_name)+"_balance"])
+            self.pair2_balance = float(response[str.lower(self.pair2_name)+"_balance"])
+        else:
+            raise GetInfoException("Critical error no balances retrieved")

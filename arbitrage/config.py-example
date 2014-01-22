@@ -1,23 +1,26 @@
 # watch the following markets
 # ["MtGoxEUR", "BitcoinCentralEUR", "IntersangoEUR", "Bitcoin24EUR",
 # "BitstampEUR", "BtceUSD", "MtGoxUSD", "BitfloorUSD", "BitstampUSD", "BterUSD", "CoinsEUSD"]
-markets = ["BtceUSD", "MtGoxUSD", "BitstampUSD", "CampBXUSD", "BitcoinCentralUSD",
-           "Bitcoin24USD"]  # BitfloorUSD (closed)
-
+#markets = ["BtceUSD", "MtGoxUSD", "BitstampUSD", "CampBXUSD", "BitcoinCentralUSD", "Bitcoin24USD"]  # BitfloorUSD (closed)
+# This altcoin arbitrage robot works as configured, as long as api/keys set correctly
+markets = ["CryptsyUSD", "CoinsEUSD"]
 # observers if any
 # ["Logger", "TraderBot", "TraderBotSim", "HistoryDumper", "Emailer"]
-observers = ["Logger"]
+# !!! Warning, TradeBotAltCoin is a live trading robot set for Cryptsy and Coins-E as configured here !!!
+observers = ["Logger", TraderBotAltCoin]
 
 market_expiration_time = 120  # in seconds: 2 minutes
 
 refresh_rate = 20
 
 # Arbitrage pair, parameter is to allow for more pairs to be traded than BTC_USD and BTC_EUR
-pair = "BTC_USD"
+#pair = "BTC_USD"
 #pair = "DTC_BTC"
 #pair = "LTC_BTC"
+pair = "QRK_BTC"
 # Only certain exchanges support altcoins, MtGox and Bitstamp will give error for other than BTC_USD pair
 # Bter supports BTC_CNY and many altcoins but NOT BTC_USD
+# Cryptsy and Coins-E likewise support many altcoins such as QRK/BTC but NOT BTC/USD
 
 #### Trader Bot Config
 # Access to Private APIs
@@ -29,8 +32,6 @@ bitcoincentral_password = "FIXME"
 bitcoincentral_address = "FIXME"  # to deposit btc from markets / wallets
 
 # Fixed the bitstamp code to work properly, username and password no longer used
-#bitstamp_username = "FIXME"
-#bitstamp_password = "FIXME"
 bitstamp_client_id = "FIXME"
 bitstamp_api_key = "FIXME"
 bitstamp_api_secret = "FIXME"
@@ -41,12 +42,18 @@ btce_api_secret = "FIXME"
 bter_api_key = "FIXME"
 bter_api_secret = "FIXME"
 
+coinse_api_key = "FIXME"
+coinse_api_secret = "FIXME"
+
+cryptsy_api_key = "FIXME"
+cryptsy_api_secret = "FIXME"
+
 # SafeGuards
-max_tx_volume = 10  # in BTC
-min_tx_volume = 1  # in BTC
+max_tx_volume = 1  # in BTC (or in terms of pair 1)
+min_tx_volume = 1  # in BTC (or in terms of par 2)
 balance_margin = 0.05  # 5%
-profit_thresh = 1  # in EUR
-perc_thresh = 2  # in %
+profit_thresh = 0.000001 # in EUR (or in terms of pair2, e.g. QRK/BTC)
+perc_thresh = 1  # in %
 
 #### Emailer Observer Config
 smtp_host = 'FIXME'

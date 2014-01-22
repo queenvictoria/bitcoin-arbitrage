@@ -1,6 +1,6 @@
 # Copyright (C) 2013, Maxime Biais <maxime@biais.org>
 
-from .market import Market, TradeException
+from .market import Market, TradeException, GetInfoException
 import time
 import hmac
 import urllib.request
@@ -73,9 +73,18 @@ class PrivateBtceUSD(Market):
     def get_info(self):
         """Get balance"""
         response = self._send_request("getInfo")
+        if False in response:
+            raise GetInfoException(response[1])
         if response:
             #print(json.dumps(response))
             return_ = response["return"]
             funds = return_["funds"]
             self.btc_balance = float(funds["btc"])
             self.usd_balance = float(funds["usd"])
+            # This is to allow arb based on other pairs besides BTC_USD and BTC_EUR
+            # see the changes to private_markets/market.py and traderbotother.py
+            # Also note that config.pair was added to the configuration file
+            self.pair1_balance = float(funds[str.lower(self.pair1_name)])
+            self.pair2_balance = float(funds[str.lower(self.pair2_name)])
+        else:
+            raise GetInfoException("Critical error no balances received")

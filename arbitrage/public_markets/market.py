@@ -6,12 +6,17 @@ import config
 import logging
 from fiatconverter import FiatConverter
 
+class GetDepthException(Exception):
+    pass
 
 class Market(object):
     def __init__(self, currency):
         self.name = self.__class__.__name__
         self.currency = currency
         self.pair = config.pair
+        pair_names = str.split(self.pair, "_")
+        self.pair1_name = str.upper(pair_names[0])
+        self.pair2_name = str.upper(pair_names[1])
         self.depth_updated = 0
         self.update_rate = 60
         self.fc = FiatConverter()

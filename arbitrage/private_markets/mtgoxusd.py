@@ -22,5 +22,9 @@ class PrivateMtGoxUSD(PrivateMtGox):
                 response["return"]["Wallets"]["BTC"]["Balance"]["value_int"]))
             self.usd_balance = self._from_int_price(int(
                 response["return"]["Wallets"]["USD"]["Balance"]["value_int"]))
+            # To support other (future) altcoins config.pair determines if config.pair is not set to "BTC_USD" code below should
+            # produce an error (as intended)
+            self.pair1_balance = self._from_int_amount(int(response["return"]["Wallets"][self.pair1_name]["Balance"]["value_int"]))
+            self.pair2_balance = self._from_int_price(int(response["return"]["Wallets"][self.pair2_name]["Balance"]["value_int"]))
             return 1
         return None
