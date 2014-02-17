@@ -11,6 +11,7 @@ from private_markets import btceusd
 from private_markets import bterusd
 from private_markets import coinseusd
 from private_markets import cryptsyusd
+from private_markets import vircurexusd
 
 class TraderBotAltCoin(Observer):
     def __init__(self):
@@ -20,10 +21,11 @@ class TraderBotAltCoin(Observer):
 #            "BtceUSD": btceusd.PrivateBtceUSD(),
 #            "BterUSD": bterusd.PrivateBterUSD(),
             "CryptsyUSD": cryptsyusd.PrivateCryptsyUSD(),
-            "CoinsEUSD": coinseusd.PrivateCoinsEUSD()
+            "CoinsEUSD": coinseusd.PrivateCoinsEUSD(),
+            "VircurexUSD": vircurexusd.PrivateVircurexUSD()
         }
         self.fc = FiatConverter()
-        self.trade_wait = 120  # in seconds
+        self.trade_wait = 60  # in seconds
         self.last_trade = 0
         self.potential_trades = []
 
@@ -70,8 +72,8 @@ class TraderBotAltCoin(Observer):
         volume = min(volume, max_volume, config.max_tx_volume)
         if volume < config.min_tx_volume:
             logging.warn("Can't automate this trade, minimum volume transaction"+
-                         " not reached %f/%f" % (volume, config.min_tx_volume))
-            logging.warn("Balance on %s: %f %s - Balance on %s: %f %s"
+                         " not reached %.8f/%.8f" % (volume, config.min_tx_volume))
+            logging.warn("Balance on %s: %.8f %s - Balance on %s: %.8f %s"
                          % (kask, self.clients[kask].pair2_balance, self.clients[kask].pair2_name,
                             kbid, self.clients[kbid].pair1_balance, self.clients[kbid].pair1_name))
             return
@@ -91,6 +93,6 @@ class TraderBotAltCoin(Observer):
     def execute_trade(self, volume, kask, kbid, weighted_buyprice,
                       weighted_sellprice, buyprice, sellprice):
         self.last_trade = time.time()
-        logging.info("Buy @%s %f %s and sell @%s" % (kask, volume, self.clients[kask].pair1_name, kbid))
+        logging.info("Buy @%s %.8f %s and sell @%s" % (kask, volume, self.clients[kask].pair1_name, kbid))
         self.clients[kask].buy(volume, buyprice)
         self.clients[kbid].sell(volume, sellprice)

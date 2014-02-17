@@ -45,6 +45,10 @@ class CryptsyUSD(Market):
     def format_depth(self, depth):
         bids = self.sort_and_format(depth['buyorders'], True)
         asks = self.sort_and_format(depth['sellorders'], False)
+        while bids[0]["price"] > asks[0]["price"]:
+            bids.pop[0]
+        while asks[0]["price"] < bids[0]["price"]:
+            asks.pop(0)
         return {'asks': asks, 'bids': bids}
 
 if __name__ == "__main__":

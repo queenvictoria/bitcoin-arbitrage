@@ -24,7 +24,7 @@ class PrivateCoinsEUSD(Market):
         self.get_info()        
         
     def _create_nonce(self):
-        return int(time.time())
+        return int(time.time()*10000)
 
     def _send_request(self, api_url, params={}, extra_headers=None):
         nonce = str(self._create_nonce())        
@@ -72,7 +72,7 @@ class PrivateCoinsEUSD(Market):
         params = {"method": "getwallets"}        
         response = self._send_request(self.getfunds_url, params)
         if response:
-            print(json.dumps(response))
+            #print(json.dumps(response))
             if response["message"] != "success":
                 raise GetInfoException(response["message"])
             funds = response["wallets"]

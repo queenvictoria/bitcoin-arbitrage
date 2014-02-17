@@ -120,17 +120,37 @@ class Arbitrer(object):
                self.depths[kbid]["bids"][best_j]["price"], \
                best_w_buyprice, best_w_sellprice
 
+    def arbitrage_simple_opportunity(self, kask, kbid):
+        best_profit = 0
+        best_i, best_j = (0, 0)
+        best_w_buyprice, best_w_sellprice = (0, 0)
+        best_volume = 0
+        profit, volume, w_buyprice, w_sellprice = self.get_profit_for(
+                    0, 0, kask, kbid)
+        if profit >= 0 and profit >= best_profit:
+                    best_profit = profit
+                    best_volume = volume
+                    #best_i, best_j = (i, j)
+                    best_w_buyprice, best_w_sellprice = (
+                        w_buyprice, w_sellprice)
+        return best_profit, best_volume, \
+               self.depths[kask]["asks"][best_i]["price"], \
+               self.depths[kbid]["bids"][best_j]["price"], \
+               best_w_buyprice, best_w_sellprice
+               
     def arbitrage_opportunity(self, kask, ask, kbid, bid):
-        perc = (bid["price"] - ask["price"]) / bid["price"] * 100
+        #perc = (bid["price"] - ask["price"]) / bid["price"] * 100
         profit, volume, buyprice, sellprice, weighted_buyprice,\
-            weighted_sellprice = self.arbitrage_depth_opportunity(kask, kbid)
+            weighted_sellprice = self.arbitrage_simple_opportunity(kask, kbid) #weighted_sellprice = self.arbitrage_depth_opportunity(kask, kbid)
+            
         if volume == 0 or buyprice == 0:
             return
-        perc2 = (1 - (volume - (profit / buyprice)) / volume) * 100
+        #perc2 = (1 - (volume - (profit / buyprice)) / volume) * 100
+        perc_gain = ((sellprice-buyprice)/buyprice)*100
         for observer in self.observers:
             observer.opportunity(
                 profit, volume, buyprice, kask, sellprice, kbid,
-                perc2, weighted_buyprice, weighted_sellprice)
+                perc_gain, weighted_buyprice, weighted_sellprice) #perc2 as original changed to perc_gain
 
     def __get_market_depth(self, market, depths):
         depths[market.name] = market.get_depth()

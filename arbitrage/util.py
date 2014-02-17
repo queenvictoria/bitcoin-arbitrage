@@ -28,10 +28,13 @@ class CryptsyUtil:
                 data = json.loads(jsonstr)
             except Exception:
                 logging.error("%s - Can't parse json: %s" % (self.name, jsonstr))
+                return 0
+            if "success" in data:
+                if int(data["success"]) == 1:
+                    json.dump(data, open(self.filename, "w"))    
         #logging.debug( "JSON=%s" % (data) )
         if "success" in data:
-            if int(data["success"]) == 1:
-                json.dump(data, open(self.filename, "w"))
+            if int(data["success"]) == 1:        
                 if "return" in data:
                     ret = data["return"]
                     if "markets" in ret:

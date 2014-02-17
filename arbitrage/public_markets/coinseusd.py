@@ -36,6 +36,8 @@ class CoinsEUSD(Market):
     def format_depth(self, depth):
         bids = self.sort_and_format(depth['bids'], True)
         asks = self.sort_and_format(depth['asks'], False)
+        while asks[0]["price"] < bids[0]["price"]: # Only necessary for coins-e which has anomaly with asks lower than bids occassionally
+            asks.pop(0)
         return {'asks': asks, 'bids': bids}
 
 if __name__ == "__main__":

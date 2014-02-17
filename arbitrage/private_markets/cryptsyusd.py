@@ -16,7 +16,7 @@ from util import CryptsyUtil
 
 class PrivateCryptsyUSD(Market):
     
-    auth_api_url = "https://www.cryptsy.com/api"    
+    auth_api_url = "https://api.cryptsy.com/api"    
     
     def __init__(self):
         super().__init__()

@@ -3,11 +3,11 @@
 # "BitstampEUR", "BtceUSD", "MtGoxUSD", "BitfloorUSD", "BitstampUSD", "BterUSD", "CoinsEUSD"]
 #markets = ["BtceUSD", "MtGoxUSD", "BitstampUSD", "CampBXUSD", "BitcoinCentralUSD", "Bitcoin24USD"]  # BitfloorUSD (closed)
 # This altcoin arbitrage robot works as configured, as long as api/keys set correctly
-markets = ["CryptsyUSD", "CoinsEUSD"]
+markets = ["CryptsyUSD", "CoinsEUSD", "VircurexUSD"]
 # observers if any
 # ["Logger", "TraderBot", "TraderBotSim", "HistoryDumper", "Emailer"]
 # !!! Warning, TradeBotAltCoin is a live trading robot set for Cryptsy and Coins-E as configured here !!!
-observers = ["Logger", TraderBotAltCoin]
+observers = ["Logger", "TraderBotAltCoin"]
 
 market_expiration_time = 120  # in seconds: 2 minutes
 
@@ -47,6 +47,9 @@ coinse_api_secret = "FIXME"
 
 cryptsy_api_key = "FIXME"
 cryptsy_api_secret = "FIXME"
+
+vircurex_username   = "FIXME"
+vircurex_api_secret = "FIXME"
 
 # SafeGuards
 max_tx_volume = 1  # in BTC (or in terms of pair 1)
