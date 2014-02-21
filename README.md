@@ -2,6 +2,9 @@
 
 It gets order books from supported exchanges and calculate arbitrage
 opportunities between each markets. It takes market depth into account.
+This fork (by bearishtrader) has added various altcoin exchanges and 
+trading for altcoin crosses against BTC (such as quarkcoin, dogecoin 
+and maxcoin etc.).
 
 Currently supported exchanges to get data:
  - MtGox (USD, EUR)
@@ -14,18 +17,27 @@ Currently supported exchanges to get data:
  - Bitfinex (USD)
  - Kraken (USD, EUR)
  - Bitcoin-Central (EUR)
+ - Cryptsy (BTC)
+ - Coins-E (BTC)
+ - Vircurex (BTC)
+ - McxNow (BTC)
 
 Currently supported exchanges to automate trade:
  - MtGox (EUR, USD)
  - Bitstamp (USD)
  - Bitcoin-Central (EUR) - (API changed)
+ - Cryptsy (BTC)
+ - Coins-E (BTC)
+ - Vircurex (BTC)
+ - McxNow (BTC)
 
 Donation are always welcome: **1Maxime7WnLqq24hasMA872JZ4VBGMDbKk**
 
 # WARNING
 
 **Real trading bots are included. Don't put your API keys in config.py
-  if you don't know what you are doing.**
+  if you don't know what you are doing.  Use TraderBotAltCoin observer
+  if you want to trade altcoins like quakrcoin, dogecoin or maxcoin.**
 
 # Installation And Configuration
 
@@ -37,11 +49,20 @@ and observers
 You need Python3 to run this program. To install on Debian, Ubuntu, or
 variants of them, use:
 
-    $ sudo apt-get install python3 python3-pip python-nose
+    $ sudo apt-get install python3
+    $ sudo apt-get install python3-setuptools
+    $ sudo easy_install3 pip
+    $ sudo pip-3.2 install requests nose
 
 To use the observer XMPPMessager you will need to install sleekxmpp:
 
-    $ pip3 install sleekxmpp
+    $ pip-3.2 install sleekxmpp
+
+To trade on the McxNow exchange you will need to get the mcxnowapi for python 3.2 and install it:
+
+    $ git clone https://github.com/bearishtrader/mcxnowapi.git
+    $ cd mcxnowapi
+    $ python3 setup.py install
 
 # Run
 

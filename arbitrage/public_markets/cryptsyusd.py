@@ -1,3 +1,14 @@
+"""
+@author: Jason Chan <bearish_trader@yahoo.com>
+
+BTC:  1ZAWfGTTyv1HuqJemnDsdQChCpiAAaZYZ
+QRK:  QQcy1tMSdK8afj1gckxKJs86izP7emEitP
+DOGE: DEdHx4GSjawoiSjbjWwr4BKH9Njx235CeH
+MAX:  mf93aDHYqk5MxfAFvMXk8Cn1fQW6S37GYQ
+MTC:  miCSJ57pae6XWi3knkmSUZXfHHg3bEEpLe
+PRT:  PYdxGCTSc2tGvRbpQjwZpnktbzRqvU4DYR
+DTC:  DRTJnJ9CW4WUqhPecfhRahC3SoCgXbQcN4
+"""
 import urllib.request
 import urllib.error
 import urllib.parse
@@ -25,13 +36,15 @@ class CryptsyUSD(Market):
             data = json.loads(jsonstr)
         except Exception:
             logging.error("%s - Can't parse json: %s" % (self.name, jsonstr))
-        if "success" in data:
+        try:
             if int(data["success"]) == 1:
                 ret = data["return"]
-                if self.pair1_name in ret:
-                    pair_data = ret[self.pair1_name]                    
-                    self.depth = self.format_depth(pair_data)
-                    return
+                pair_data = ret[self.pair1_name]
+                self.depth = self.format_depth(pair_data)
+                return
+        except Exception:
+            logging.error("%s - response received but error: %s" % (self.name, data))
+
         logging.error("%s - fetched data error" % (self.name))
         raise GetDepthException("update_depth failed json=" + json.dumps(data))
 

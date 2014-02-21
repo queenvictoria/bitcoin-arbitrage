@@ -1,3 +1,14 @@
+"""
+@author: Jason Chan <bearish_trader@yahoo.com>
+
+BTC:  1ZAWfGTTyv1HuqJemnDsdQChCpiAAaZYZ
+QRK:  QQcy1tMSdK8afj1gckxKJs86izP7emEitP
+DOGE: DEdHx4GSjawoiSjbjWwr4BKH9Njx235CeH
+MAX:  mf93aDHYqk5MxfAFvMXk8Cn1fQW6S37GYQ
+MTC:  miCSJ57pae6XWi3knkmSUZXfHHg3bEEpLe
+PRT:  PYdxGCTSc2tGvRbpQjwZpnktbzRqvU4DYR
+DTC:  DRTJnJ9CW4WUqhPecfhRahC3SoCgXbQcN4
+"""
 import logging
 import config
 import time
@@ -12,6 +23,7 @@ from private_markets import bterusd
 from private_markets import coinseusd
 from private_markets import cryptsyusd
 from private_markets import vircurexusd
+from private_markets import mcxnowusd
 
 class TraderBotAltCoin(Observer):
     def __init__(self):
@@ -22,7 +34,8 @@ class TraderBotAltCoin(Observer):
 #            "BterUSD": bterusd.PrivateBterUSD(),
             "CryptsyUSD": cryptsyusd.PrivateCryptsyUSD(),
             "CoinsEUSD": coinseusd.PrivateCoinsEUSD(),
-            "VircurexUSD": vircurexusd.PrivateVircurexUSD()
+            #"VircurexUSD": vircurexusd.PrivateVircurexUSD()
+            "McxNowUSD": mcxnowusd.PrivateMcxNowUSD()
         }
         self.fc = FiatConverter()
         self.trade_wait = 60  # in seconds

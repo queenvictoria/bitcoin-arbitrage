@@ -1,3 +1,14 @@
+"""
+@author: Jason Chan <bearish_trader@yahoo.com>
+
+BTC:  1ZAWfGTTyv1HuqJemnDsdQChCpiAAaZYZ
+QRK:  QQcy1tMSdK8afj1gckxKJs86izP7emEitP
+DOGE: DEdHx4GSjawoiSjbjWwr4BKH9Njx235CeH
+MAX:  mf93aDHYqk5MxfAFvMXk8Cn1fQW6S37GYQ
+MTC:  miCSJ57pae6XWi3knkmSUZXfHHg3bEEpLe
+PRT:  PYdxGCTSc2tGvRbpQjwZpnktbzRqvU4DYR
+DTC:  DRTJnJ9CW4WUqhPecfhRahC3SoCgXbQcN4
+"""
 from .market import Market, TradeException, GetInfoException
 import time
 import urllib.request
@@ -22,16 +33,11 @@ class PrivateVircurexUSD(Market):
         self.username = config.vircurex_username
         self.currency = "USD"
         self.get_info()        
-        
-    def _create_nonce(self):
-        return int(time.time())
 
-    def _send_request(self, api_url, command=None, token_param_names=[], params={}, extra_headers=None):
-        #nonce = str(self._create_nonce())        
+    def _send_request(self, api_url, command=None, token_param_names=[], params={}, extra_headers=None):        
         # Thanks to hunterbunter for his cool code that made my life easier, see https://github.com/hunterbunter/vircurex-python-shotgunbot/blob/master/vircurex.py
         # for a full vircurex trading API, didn't need the whole thing just a few lines        
         t = time.strftime("%Y-%m-%dT%H:%M:%S",time.gmtime()) #UTC time        
-        #txid = hashlib.sha256(str.encode("%s-%f"%(t,float(nonce)))).hexdigest(); #unique trasmission ID using nonce
         txid = hashlib.sha256(str.encode("%s-%f"%(t,random.randint(0,1<<31)))).hexdigest(); #unique trasmission ID using random integer        
         #token computation
         vp=[command]        
@@ -46,17 +52,8 @@ class PrivateVircurexUSD(Market):
         for param_name in token_param_names:
             reqp.append((param_name, params[param_name]))        
         message = urllib.parse.urlencode(reqp)        
-        #headers = {
-        #    'Content-type': 'application/x-www-form-urlencoded',
-        #    'Accept': 'application/json, text/javascript, */*; q=0.01',
-        #    'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'            
-        #}
-        #if extra_headers is not None:
-        #    for k, v in extra_headers.items():
-        #        headers[k] = v
         post_url = api_url + "?" + message
-        #print("post_url=" + post_url)
-        #print("message=" + message)
+        
         # Very strange, the other http API's from python would not work with vircurex site, giving 404 error,
         # but this one does as does pasting the URL manually in to web browser...
         # Not sure what is going on, even had set headers (commented out now) to mimic web browser.

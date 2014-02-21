@@ -1,5 +1,14 @@
-# Copyright (C) 2014, Jason Chan <bearish_trader@yahoo.com>
-# -*- coding: utf-8 -*-
+"""
+@author: Jason Chan <bearish_trader@yahoo.com>
+
+BTC:  1ZAWfGTTyv1HuqJemnDsdQChCpiAAaZYZ
+QRK:  QQcy1tMSdK8afj1gckxKJs86izP7emEitP
+DOGE: DEdHx4GSjawoiSjbjWwr4BKH9Njx235CeH
+MAX:  mf93aDHYqk5MxfAFvMXk8Cn1fQW6S37GYQ
+MTC:  miCSJ57pae6XWi3knkmSUZXfHHg3bEEpLe
+PRT:  PYdxGCTSc2tGvRbpQjwZpnktbzRqvU4DYR
+DTC:  DRTJnJ9CW4WUqhPecfhRahC3SoCgXbQcN4
+"""
 import urllib.request
 import urllib.error
 import urllib.parse

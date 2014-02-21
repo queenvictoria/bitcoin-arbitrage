@@ -1,5 +1,14 @@
-# Copyright (C) 2013, Maxime Biais <maxime@biais.org>
+"""
+@author: Jason Chan <bearish_trader@yahoo.com>
 
+BTC:  1ZAWfGTTyv1HuqJemnDsdQChCpiAAaZYZ
+QRK:  QQcy1tMSdK8afj1gckxKJs86izP7emEitP
+DOGE: DEdHx4GSjawoiSjbjWwr4BKH9Njx235CeH
+MAX:  mf93aDHYqk5MxfAFvMXk8Cn1fQW6S37GYQ
+MTC:  miCSJ57pae6XWi3knkmSUZXfHHg3bEEpLe
+PRT:  PYdxGCTSc2tGvRbpQjwZpnktbzRqvU4DYR
+DTC:  DRTJnJ9CW4WUqhPecfhRahC3SoCgXbQcN4
+"""
 from .market import Market, TradeException, GetInfoException
 import time
 import hmac
@@ -9,12 +18,15 @@ import urllib.error
 import hashlib
 import sys
 import json
+import logging
 import config
 import requests
 
-class PrivateCoinsEUSD(Market):
-    placeorder_url = "https://www.coins-e.com/api/v2/market/"
+class PrivateCoinsEUSD(Market):    
+    placeorder_url = "https://www.coins-e.com/api/v2/market/"    
     getfunds_url = "https://www.coins-e.com/api/v2/wallet/all/"
+    retry_requests = 2    
+    
     def __init__(self):
         super().__init__()
         self.proxydict = None
@@ -69,21 +81,36 @@ class PrivateCoinsEUSD(Market):
 
     def get_info(self):
         """Get balance"""
-        params = {"method": "getwallets"}        
-        response = self._send_request(self.getfunds_url, params)
+        params = {"method": "getwallets"}
+        # nonce gets collissions often if running multiple arbitrage bot 
+        # instances to monitor different pairs, so do a retry here a second
+        # apart
+        for i in range(1, self.retry_requests):
+            response = self._send_request(self.getfunds_url, params)
+            if response:
+                #print(json.dumps(response))
+                if response["message"] != "success":
+                    logging.error("%s - get_info(): %s" % (self.name, response["message"]))
+                    time.sleep(1)
+                    continue
+                    
+                funds = response["wallets"]
+                if funds:
+                    if "BTC" in funds:
+                        self.btc_balance = float((funds["BTC"])["a"])
+                    # USD is not supported (yet) by Coins-e
+                    self.usd_balance = float(0.0)
+                    if self.pair1_name in funds:
+                        self.pair1_balance = float((funds[self.pair1_name])["a"])
+                    if self.pair2_name in funds:
+                        self.pair2_balance = float((funds[self.pair2_name])["a"])
+                    return
+                else:
+                    logging.error("%s - Got response but no balances." % (self.name))
+                    #raise GetInfoException("Critical error no balances received")
+                    return
+        # If we got here, there is some kind of error
+        errmsg = "Invalid response"
         if response:
-            #print(json.dumps(response))
-            if response["message"] != "success":
-                raise GetInfoException(response["message"])
-            funds = response["wallets"]
-            if funds:
-                if "BTC" in funds:
-                    self.btc_balance = float((funds["BTC"])["a"])
-                # USD is not supported (yet) by Coins-e
-                self.usd_balance = float(0.0)
-                if self.pair1_name in funds:
-                    self.pair1_balance = float((funds[self.pair1_name])["a"])
-                if self.pair2_name in funds:
-                    self.pair2_balance = float((funds[self.pair2_name])["a"])
-            else:
-                raise GetInfoException("Critical error no balances received")
+            errmsg = response["message"]    
+        logging.error("%s - get_info(): %s" % (self.name, errmsg))

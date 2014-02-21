@@ -1,5 +1,20 @@
-# Copyright (C) 2013, Maxime Biais <maxime@biais.org>
+"""
+@author: Jason Chan <bearish_trader@yahoo.com>
 
+BTC:  1ZAWfGTTyv1HuqJemnDsdQChCpiAAaZYZ
+QRK:  QQcy1tMSdK8afj1gckxKJs86izP7emEitP
+DOGE: DEdHx4GSjawoiSjbjWwr4BKH9Njx235CeH
+MAX:  mf93aDHYqk5MxfAFvMXk8Cn1fQW6S37GYQ
+MTC:  miCSJ57pae6XWi3knkmSUZXfHHg3bEEpLe
+PRT:  PYdxGCTSc2tGvRbpQjwZpnktbzRqvU4DYR
+DTC:  DRTJnJ9CW4WUqhPecfhRahC3SoCgXbQcN4
+
+IMPORTANT: This module requires the mcxnowapi, from below location.
+Created a fork of the mcxnowapi by mbuech <longbuech@gmail.com> 
+to make it python3 compatible (and added MaxCoin plus bug fixes) get it here:
+
+git clone https://github.com/bearishtrader/mcxnowapi.git
+"""
 from .market import Market, TradeException, GetInfoException
 import time
 import hmac
@@ -83,6 +98,7 @@ class PrivateCryptsyUSD(Market):
             #logging.debug("get_info:JSON=%s" % (json.dumps(response)))
             if "success" in response:
                 if int(response["success"]) != 1:
+                    logging.debug("%s - get_info:JSON=%s" % (self.name, json.dumps(response)))
                     raise GetInfoException(response["error"])
             data = response["return"]
             if "balances_available" in data:

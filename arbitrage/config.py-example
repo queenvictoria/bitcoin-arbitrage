@@ -1,9 +1,11 @@
+# 2/21/2013 Jason Chan <bearish_trader@yahoo.com>: Added MaxCoin and the McxNow exchange, configuration below will arb the three exchanges for MaxCoin
 # watch the following markets
 # ["MtGoxEUR", "BitcoinCentralEUR", "IntersangoEUR", "Bitcoin24EUR",
 # "BitstampEUR", "BtceUSD", "MtGoxUSD", "BitfloorUSD", "BitstampUSD", "BterUSD", "CoinsEUSD"]
 #markets = ["BtceUSD", "MtGoxUSD", "BitstampUSD", "CampBXUSD", "BitcoinCentralUSD", "Bitcoin24USD"]  # BitfloorUSD (closed)
 # This altcoin arbitrage robot works as configured, as long as api/keys set correctly
-markets = ["CryptsyUSD", "CoinsEUSD", "VircurexUSD"]
+# markets = ["CryptsyUSD", "CoinsEUSD", "VircurexUSD"]
+markets = ["CryptsyUSD", "CoinsEUSD", "McxNowUSD"]
 # observers if any
 # ["Logger", "TraderBot", "TraderBotSim", "HistoryDumper", "Emailer"]
 # !!! Warning, TradeBotAltCoin is a live trading robot set for Cryptsy and Coins-E as configured here !!!
@@ -17,11 +19,12 @@ refresh_rate = 20
 #pair = "BTC_USD"
 #pair = "DTC_BTC"
 #pair = "LTC_BTC"
-pair = "QRK_BTC"
+#pair = "QRK_BTC"
+pair = "MAX_BTC"
 # Only certain exchanges support altcoins, MtGox and Bitstamp will give error for other than BTC_USD pair
 # Bter supports BTC_CNY and many altcoins but NOT BTC_USD
 # Cryptsy and Coins-E likewise support many altcoins such as QRK/BTC but NOT BTC/USD
-
+# MaxCoin is supported on Cryptsy, Coins-E and McxNow
 #### Trader Bot Config
 # Access to Private APIs
 mtgox_key = "FIXME"
@@ -51,12 +54,15 @@ cryptsy_api_secret = "FIXME"
 vircurex_username   = "FIXME"
 vircurex_api_secret = "FIXME"
 
+mcxnow_username = "FIXME"
+mcxnow_password = "FIXME"
+
 # SafeGuards
-max_tx_volume = 1  # in BTC (or in terms of pair 1)
-min_tx_volume = 1  # in BTC (or in terms of par 2)
-balance_margin = 0.05  # 5%
+max_tx_volume = 1.0 # in BTC (or in terms of pair 1)
+min_tx_volume = 0.2 # in BTC (or in terms of par 2)
+balance_margin = 0.05 # 5%
 profit_thresh = 0.000001 # in EUR (or in terms of pair2, e.g. QRK/BTC)
-perc_thresh = 1  # in %
+perc_thresh = 2.0  # in %
 
 #### Emailer Observer Config
 smtp_host = 'FIXME'
