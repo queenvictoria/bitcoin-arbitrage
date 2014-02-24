@@ -39,7 +39,7 @@ class PrivateMcxNowUSD(Market):
     def _buy(self, amount, price):
         """Create a buy limit order"""        
         for i in range(1, self.retry_logins):
-            ret = self.S.SendBuyOrder(self.pair1_name, amount, price, 1)
+            ret = self.S.SendBuyOrder(self.pair1_name, amount*price, price, 1) # mcxnowapi/api.py defaults to type=1 or btc for buys
             if ret == 1: # success
                 break            
             if ret == 0:
