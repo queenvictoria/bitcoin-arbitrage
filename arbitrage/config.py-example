@@ -1,11 +1,10 @@
 # 2/21/2013 Jason Chan <bearish_trader@yahoo.com>: Added MaxCoin and the McxNow exchange, configuration below will arb the three exchanges for MaxCoin
 # watch the following markets
-# ["MtGoxEUR", "BitcoinCentralEUR", "IntersangoEUR", "Bitcoin24EUR",
-# "BitstampEUR", "BtceUSD", "MtGoxUSD", "BitfloorUSD", "BitstampUSD", "BterUSD", "CoinsEUSD"]
-#markets = ["BtceUSD", "MtGoxUSD", "BitstampUSD", "CampBXUSD", "BitcoinCentralUSD", "Bitcoin24USD"]  # BitfloorUSD (closed)
-# This altcoin arbitrage robot works as configured, as long as api/keys set correctly
-# markets = ["CryptsyUSD", "CoinsEUSD", "VircurexUSD"]
-markets = ["CryptsyUSD", "VircurexUSD", "CoinsEUSD", "McxNowUSD", "BterUSD", "BittrexUSD", "PoloniexUSD"]
+# [BitcoinCentralEUR", "IntersangoEUR", "Bitcoin24EUR", "BitstampEUR",
+# "BtceUSD", "BitfloorUSD", "BitstampUSD"]
+markets = ["BtceUSD", BitstampUSD", "CampBXUSD", "BitcoinCentralUSD",
+	"Bitcoin24USD"]
+
 # observers if any
 # ["Logger", "TraderBot", "TraderBotSim", "HistoryDumper", "Emailer"]
 # !!! Warning, TradeBotAltCoin is a live trading robot set for Cryptsy and Coins-E as configured here !!!
@@ -28,8 +27,6 @@ pair = "DOGE_BTC"
 # MaxCoin is supported on Cryptsy, Coins-E and McxNow
 #### Trader Bot Config
 # Access to Private APIs
-mtgox_key = "FIXME"
-mtgox_secret = "FIXME"
 
 bitcoincentral_username = "FIXME"
 bitcoincentral_password = "FIXME"
