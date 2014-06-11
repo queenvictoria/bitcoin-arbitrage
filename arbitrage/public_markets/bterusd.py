@@ -12,9 +12,12 @@ class BterUSD(Market):
         self.depth = {'asks': [{'price': 0, 'amount': 0}], 'bids': [
             {'price': 0, 'amount': 0}]}
 
-    def update_depth(self):
-        res = urllib.request.urlopen(
-            'https://bter.com/api/1/depth/' + str.lower(self.pair) )
+    def update_depth(self):        
+        pair_url = 'https://data.bter.com/api/1/depth/' + str.lower(self.pair)        
+        u = urllib.request.URLopener()
+        u.addheaders = []
+        u.addheader('Content-Type', 'application/x-www-form-urlencoded')        
+        res = u.open(pair_url)
         jsonstr = res.read().decode('utf8')
         try:
             data = json.loads(jsonstr)
