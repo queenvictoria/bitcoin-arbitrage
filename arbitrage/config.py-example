@@ -1,8 +1,8 @@
 # 2/21/2013 Jason Chan <bearish_trader@yahoo.com>: Added MaxCoin and the McxNow exchange, configuration below will arb the three exchanges for MaxCoin
 # watch the following markets
-# [BitcoinCentralEUR", "IntersangoEUR", "Bitcoin24EUR", "BitstampEUR",
+# [PaymiumEUR", "IntersangoEUR", "Bitcoin24EUR", "BitstampEUR",
 # "BtceUSD", "BitfloorUSD", "BitstampUSD"]
-markets = ["BtceUSD", BitstampUSD", "CampBXUSD", "BitcoinCentralUSD",
+markets = ["BtceUSD", BitstampUSD", "CampBXUSD", "PaymiumUSD",
 	"Bitcoin24USD"]
 
 # observers if any
@@ -28,9 +28,9 @@ pair = "DOGE_BTC"
 #### Trader Bot Config
 # Access to Private APIs
 
-bitcoincentral_username = "FIXME"
-bitcoincentral_password = "FIXME"
-bitcoincentral_address = "FIXME"  # to deposit btc from markets / wallets
+paymium_username = "FIXME"
+paymium_password = "FIXME"
+paymium_address = "FIXME"  # to deposit btc from markets / wallets
 
 # Fixed the bitstamp code to work properly, username and password no longer used
 bitstamp_client_id = "FIXME"
