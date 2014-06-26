@@ -5,7 +5,7 @@
 #markets = ["BtceUSD", "MtGoxUSD", "BitstampUSD", "CampBXUSD", "BitcoinCentralUSD", "Bitcoin24USD"]  # BitfloorUSD (closed)
 # This altcoin arbitrage robot works as configured, as long as api/keys set correctly
 # markets = ["CryptsyUSD", "CoinsEUSD", "VircurexUSD"]
-markets = ["CryptsyUSD", "CoinsEUSD", "McxNowUSD"]
+markets = ["CryptsyUSD", "VircurexUSD", "CoinsEUSD", "McxNowUSD", "BterUSD"]
 # observers if any
 # ["Logger", "TraderBot", "TraderBotSim", "HistoryDumper", "Emailer"]
 # !!! Warning, TradeBotAltCoin is a live trading robot set for Cryptsy and Coins-E as configured here !!!
@@ -20,7 +20,8 @@ refresh_rate = 20
 #pair = "DTC_BTC"
 #pair = "LTC_BTC"
 #pair = "QRK_BTC"
-pair = "MAX_BTC"
+#pair = "MAX_BTC"
+pair = "DOGE_BTC"
 # Only certain exchanges support altcoins, MtGox and Bitstamp will give error for other than BTC_USD pair
 # Bter supports BTC_CNY and many altcoins but NOT BTC_USD
 # Cryptsy and Coins-E likewise support many altcoins such as QRK/BTC but NOT BTC/USD
@@ -58,11 +59,11 @@ mcxnow_username = "FIXME"
 mcxnow_password = "FIXME"
 
 # SafeGuards
-max_tx_volume = 1.0 # in BTC (or in terms of pair 1)
-min_tx_volume = 0.2 # in BTC (or in terms of par 2)
+max_tx_volume = 10000 # in BTC (or in terms of pair 1)
+min_tx_volume = 100 # in BTC (or in terms of pair 2)
 balance_margin = 0.05 # 5%
 profit_thresh = 0.000001 # in EUR (or in terms of pair2, e.g. QRK/BTC)
-perc_thresh = 2.0  # in %
+perc_thresh = 1.4  # in %
 
 #### Emailer Observer Config
 smtp_host = 'FIXME'
