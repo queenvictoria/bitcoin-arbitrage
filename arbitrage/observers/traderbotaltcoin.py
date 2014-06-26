@@ -31,10 +31,10 @@ class TraderBotAltCoin(Observer):
 #            "MtGoxUSD": mtgoxusd.PrivateMtGoxUSD(),
 #            "BitstampUSD": bitstampusd.PrivateBitstampUSD(),
 #            "BtceUSD": btceusd.PrivateBtceUSD(),
-#            "BterUSD": bterusd.PrivateBterUSD(),
+            "BterUSD": bterusd.PrivateBterUSD(),
             "CryptsyUSD": cryptsyusd.PrivateCryptsyUSD(),
             "CoinsEUSD": coinseusd.PrivateCoinsEUSD(),
-            #"VircurexUSD": vircurexusd.PrivateVircurexUSD()
+            "VircurexUSD": vircurexusd.PrivateVircurexUSD(),
             "McxNowUSD": mcxnowusd.PrivateMcxNowUSD()
         }
         self.fc = FiatConverter()
