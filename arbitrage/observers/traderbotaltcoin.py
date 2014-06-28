@@ -24,6 +24,7 @@ from private_markets import coinseusd
 from private_markets import cryptsyusd
 from private_markets import vircurexusd
 from private_markets import mcxnowusd
+from private_markets import bittrexusd
 
 class TraderBotAltCoin(Observer):
     def __init__(self):
@@ -35,7 +36,8 @@ class TraderBotAltCoin(Observer):
             "CryptsyUSD": cryptsyusd.PrivateCryptsyUSD(),
             "CoinsEUSD": coinseusd.PrivateCoinsEUSD(),
             "VircurexUSD": vircurexusd.PrivateVircurexUSD(),
-            "McxNowUSD": mcxnowusd.PrivateMcxNowUSD()
+            "McxNowUSD": mcxnowusd.PrivateMcxNowUSD(),
+            "BittrexUSD": bittrexusd.PrivateBittrexUSD()
         }
         self.fc = FiatConverter()
         self.trade_wait = 60  # in seconds
