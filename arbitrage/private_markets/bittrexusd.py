@@ -71,7 +71,7 @@ class PrivateBittrexUSD(Market):
 
     def _buy(self, amount, price):
         """Create a buy limit order"""
-        params = {"market": self.pair1_name+"-"+self.pair2_name, "quantity" : amount, "rate" : price}
+        params = {"market": self.pair2_name+"-"+self.pair1_name, "quantity" : amount, "rate" : price}
         response = self._send_request(self.auth_api_url+"market/buylimit", params)        
         if "success" in response:
             if bool(response["success"]) != True:
@@ -81,7 +81,7 @@ class PrivateBittrexUSD(Market):
 
     def _sell(self, amount, price):
         """Create a sell limit order"""
-        params = {"market": self.pair1_name+"-"+self.pair2_name, "quantity" : amount, "rate" : price}
+        params = {"market": self.pair2_name+"-"+self.pair1_name, "quantity" : amount, "rate" : price}
         response = self._send_request(self.auth_api_url+"market/selllimit", params)
         if "success" in response:
             if bool(response["success"]) != True:
