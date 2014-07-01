@@ -21,6 +21,8 @@ Currently supported exchanges to get data:
  - Coins-E (BTC)
  - Vircurex (BTC)
  - McxNow (BTC)
+ - Bter (BTC)
+ - Bittrex (BTC)
 
 Currently supported exchanges to automate trade:
  - MtGox (EUR, USD)
@@ -30,6 +32,8 @@ Currently supported exchanges to automate trade:
  - Coins-E (BTC)
  - Vircurex (BTC)
  - McxNow (BTC)
+ - Bter (BTC)
+ - Bittrex (BTC)
 
 Donation are always welcome: **1Maxime7WnLqq24hasMA872JZ4VBGMDbKk**
 
