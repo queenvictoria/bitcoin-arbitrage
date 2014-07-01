@@ -53,10 +53,12 @@ variants of them, use:
     $ sudo apt-get install python3-setuptools
     $ sudo easy_install3 pip
     $ sudo pip-3.2 install requests nose
+    (Alternatively, sudo pip3 install requests nose)
 
 To use the observer XMPPMessager you will need to install sleekxmpp:
 
-    $ pip-3.2 install sleekxmpp
+    $ sudo pip-3.2 install sleekxmpp
+    (Alternatively, pip3 install sleekxmpp)
 
 To trade on the McxNow exchange you will need to get the mcxnowapi for python 3.2 and install it:
 
