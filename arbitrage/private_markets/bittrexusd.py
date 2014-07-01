@@ -72,10 +72,13 @@ class PrivateBittrexUSD(Market):
     def _buy(self, amount, price):
         """Create a buy limit order"""
         params = {"market": self.pair2_name+"-"+self.pair1_name, "quantity" : amount, "rate" : price}
-        response = self._send_request(self.auth_api_url+"market/buylimit", params)        
-        if "success" in response:
-            if bool(response["success"]) != True:
-               raise TradeException(response["error"])
+        response = self._send_request(self.auth_api_url+"market/buylimit", params)
+        if response:
+            if "success" in response:
+                if bool(response["success"]) != True:
+                    logging.debug("_buy:error, response=%s" % (str(response)) )
+            else:
+                raise TradeException("JSON error, 'success' tag missing")
         else:
             raise TradeException("JSON error")
 
@@ -83,9 +86,12 @@ class PrivateBittrexUSD(Market):
         """Create a sell limit order"""
         params = {"market": self.pair2_name+"-"+self.pair1_name, "quantity" : amount, "rate" : price}
         response = self._send_request(self.auth_api_url+"market/selllimit", params)
-        if "success" in response:
-            if bool(response["success"]) != True:
-                raise TradeException(response["error"])
+        if response:
+            if "success" in response:
+                if bool(response["success"]) != True:
+                    logging.debug("_sell:error, response=%s" % (str(response)) )
+            else:
+                raise TradeException("JSON error, 'success' tag missing")
         else:
             raise TradeException("JSON error")
 
@@ -103,11 +109,11 @@ class PrivateBittrexUSD(Market):
             for current_balance in balances_list:
                 if current_balance["Currency"] == "BTC":
                     self.btc_balance = float(current_balance["Available"])
-                elif current_balance["Currency"] == "USD":
+                if current_balance["Currency"] == "USD":
                     self.usd_balance = float(current_balance["Available"])
-                elif current_balance["Currency"] == self.pair1_name:
+                if current_balance["Currency"] == self.pair1_name:
                     self.pair1_balance = float(current_balance["Available"])
-                elif current_balance["Currency"] == self.pair2_name:
+                if current_balance["Currency"] == self.pair2_name:
                     self.pair2_balance = float(current_balance["Available"])
         else:
             raise GetInfoException("JSON error")
