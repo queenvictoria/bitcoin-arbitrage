@@ -17,6 +17,7 @@ class FiatConverter:
         self.__dict__ = self.__shared_state
         self.rates = {
             "USD": 1,
+            "AUD": 1.068,
             "EUR": 0.77,
             "CNY": 6.15,
             "SEK": 6.6,
