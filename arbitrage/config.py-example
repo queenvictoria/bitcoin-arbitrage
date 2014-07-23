@@ -51,6 +51,7 @@ coinse_api_secret = "FIXME"
 
 cryptsy_api_key = "FIXME"
 cryptsy_api_secret = "FIXME"
+cryptsy_use_private_orderbook = False
 
 vircurex_username   = "FIXME"
 vircurex_api_secret = "FIXME"
