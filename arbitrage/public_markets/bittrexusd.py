@@ -28,7 +28,7 @@ class BittrexUSD(Market):
         params = {"market": self.pair2_name+"-"+self.pair1_name, "type": "both", "depth" : 20}
         # Fore bittrex API everything is a GET, no POST methods accepted/allowed
         res = urllib.request.urlopen(
-            'https://bittrex.com/api/v1/public/getorderbook?'+urllib.parse.urlencode(params))
+            'https://bittrex.com/api/v1.1/public/getorderbook?'+urllib.parse.urlencode(params))
         jsonstr = res.read().decode('utf8')
         try:
             data = json.loads(jsonstr)
