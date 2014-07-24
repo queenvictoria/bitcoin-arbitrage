@@ -98,7 +98,7 @@ class PrivateBittrexUSD(Market):
     def get_info(self):
         """Get balance"""
         params = {}
-        response = self._send_request("https://bittrex.com/api/v1/account/getbalances", params)
+        response = self._send_request("https://bittrex.com/api/v1.1/account/getbalances", params)
         if response:
             logging.debug("get_info:JSON=%s" % (json.dumps(response)))
             if "success" in response:
