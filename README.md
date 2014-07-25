@@ -23,6 +23,7 @@ Currently supported exchanges to get data:
  - McxNow (BTC)
  - Bter (BTC)
  - Bittrex (BTC)
+ - Poloniex (BTC)
 
 Currently supported exchanges to automate trade:
  - MtGox (EUR, USD)
@@ -34,6 +35,7 @@ Currently supported exchanges to automate trade:
  - McxNow (BTC)
  - Bter (BTC)
  - Bittrex (BTC)
+ - Poloniex (BTC)
 
 Donation are always welcome: **1Maxime7WnLqq24hasMA872JZ4VBGMDbKk**
 
@@ -56,19 +58,19 @@ variants of them, use:
     $ sudo apt-get install python3
     $ sudo apt-get install python3-setuptools
     $ sudo easy_install3 pip
-    $ sudo pip-3.2 install requests nose
-    (Alternatively, sudo pip3 install requests nose)
+    $ sudo pip3 install requests nose
 
 To use the observer XMPPMessager you will need to install sleekxmpp:
 
-    $ sudo pip-3.2 install sleekxmpp
-    (Alternatively, pip3 install sleekxmpp)
+    $ sudo pip3 install sleekxmpp
 
 To trade on the McxNow exchange you will need to get the mcxnowapi for python 3.2 and install it:
 
     $ git clone https://github.com/bearishtrader/mcxnowapi.git
     $ cd mcxnowapi
     $ python3 setup.py install
+
+**Note that the McxNow API does NOT support 2FA so you will need to turn off 2FA on McxNow to use this API.
 
 # Run
 
