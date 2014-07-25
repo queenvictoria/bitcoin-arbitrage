@@ -83,3 +83,17 @@ smtp_to = 'FIXME'
 xmpp_jid = "FROM@jabber.org"
 xmpp_password = "FIXME"
 xmpp_to = "TO@jabber.org"
+
+#### Trade Logger
+trade_log_name = '/var/log/arb_trades.csv'
+trade_log_fees = {
+"BitstampUSD" : {"Buy": 0.5, "Sell": 0.5},
+"BtceUSD" : {"Buy": 0.2, "Sell": 0.2},
+"CryptsyUSD" : {"Buy": 0.25, "Sell": 0.25},
+"CoinsEUSD" : {"Buy": 0.15, "Sell": 0.15},
+"VircurexUSD" : {"Buy": 0.2, "Sell": 0.2},
+"McxNowUSD" : {"Buy": 0.25, "Sell": 0.25},
+"BterUSD" : {"Buy": 0.2, "Sell": 0.2},
+"BittrexUSD" : {"Buy": 0.25, "Sell": 0.25},
+"PoloniexUSD" : {"Buy": 0.2, "Sell": 0.2}
+}
