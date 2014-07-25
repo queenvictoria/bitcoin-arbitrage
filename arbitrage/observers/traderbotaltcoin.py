@@ -12,6 +12,7 @@ DTC:  DRTJnJ9CW4WUqhPecfhRahC3SoCgXbQcN4
 import logging
 import config
 import time
+import socket
 from .observer import Observer
 from .emailer import send_email
 from fiatconverter import FiatConverter
@@ -45,6 +46,11 @@ class TraderBotAltCoin(Observer):
         self.trade_wait = 60  # in seconds
         self.last_trade = 0
         self.potential_trades = []
+        self.trade_logger = logging.getLogger("trade_logger")
+        fh = logging.FileHandler(str(config.trade_log_name))
+        formatter = logging.Formatter('%(asctime)s,%(name)s,%(levelname)s,%(message)s')
+        fh.setFormatter(formatter)
+        self.trade_logger.addHandler(fh)
 
     def begin_opportunity_finder(self, depths):
         self.potential_trades = []
@@ -111,5 +117,11 @@ class TraderBotAltCoin(Observer):
                       weighted_sellprice, buyprice, sellprice):
         self.last_trade = time.time()
         logging.info("Buy @%s %.8f %s and sell @%s" % (kask, volume, self.clients[kask].pair1_name, kbid))
+        gross_profit = sellprice*volume - buyprice*volume
+        gross_profit_pct = (gross_profit/(buyprice*volume))*100
+        net_profit = sellprice*volume - buyprice*volume - sellprice*volume*(config.trade_log_fees[kbid]["Sell"]/100) - buyprice*volume*(config.trade_log_fees[kask]["Buy"]/100)
+        net_profit_pct = (net_profit/(buyprice*volume))*100
+        self.trade_logger.info("%s,%s/%s,Buy,%s,%.8f,%.8f,Sell,%s,%.8f,%.8f,%.8f%%,%.8f,%.8f%%" %(socket.gethostname(), self.clients[kask].pair1_name, self.clients[kask].pair2_name, kask, volume, buyprice, kbid, sellprice, 
+                               gross_profit, gross_profit_pct, net_profit, net_profit_pct))
         self.clients[kask].buy(volume, buyprice)
         self.clients[kbid].sell(volume, sellprice)
