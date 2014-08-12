@@ -13,6 +13,7 @@ import logging
 import config
 import time
 import socket
+import sys
 from .observer import Observer
 from .emailer import send_email
 from fiatconverter import FiatConverter
@@ -121,7 +122,13 @@ class TraderBotAltCoin(Observer):
         gross_profit_pct = (gross_profit/(buyprice*volume))*100
         net_profit = sellprice*volume - buyprice*volume - sellprice*volume*(config.trade_log_fees[kbid]["Sell"]/100) - buyprice*volume*(config.trade_log_fees[kask]["Buy"]/100)
         net_profit_pct = (net_profit/(buyprice*volume))*100
-        self.trade_logger.info("%s,%s/%s,Buy,%s,%.8f,%.8f,Sell,%s,%.8f,%.8f,%.8f%%,%.8f,%.8f%%" %(socket.gethostname(), self.clients[kask].pair1_name, self.clients[kask].pair2_name, kask, volume, buyprice, kbid, sellprice, 
-                               gross_profit, gross_profit_pct, net_profit, net_profit_pct))
-        self.clients[kask].buy(volume, buyprice)
-        self.clients[kbid].sell(volume, sellprice)
+        trade_record = "%s,%s/%s,Buy,%s,%.8f,%.8f,Sell,%s,%.8f,%.8f,%.8f%%,%.8f,%.8f%%" %(socket.gethostname(), self.clients[kask].pair1_name, self.clients[kask].pair2_name, kask, volume, buyprice, kbid, sellprice,
+                       gross_profit, gross_profit_pct, net_profit, net_profit_pct)
+        try:
+            self.clients[kask].buy(volume, buyprice)
+            self.clients[kbid].sell(volume, sellprice)
+        except:
+            exception_err_msg = sys.exc_info()[1].args[0]
+            self.trade_logger.error(trade_record + "," + exception_err_msg)
+        else:
+            self.trade_logger.info(trade_record)
