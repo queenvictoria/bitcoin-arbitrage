@@ -75,7 +75,9 @@ class PrivatePoloniexUSD(Market):
             if "orderNumber" in response:
                 logging.debug("%s _buy success, orderNumber=%d" % (str(self.name), int(response["orderNumber"])))
             else:
-                logging.debug("%s _buy error, response=%s" % (str(self.name), str(response)))
+                err_msg = "%s _buy error, response=%s" % (str(self.name), str(response))
+                logging.error(err_msg)
+                raise TradeException(err_msg)
         else:
             raise TradeException("JSON error")
 
@@ -87,7 +89,9 @@ class PrivatePoloniexUSD(Market):
             if "orderNumber" in response:
                 logging.debug("%s _sell success, orderNumber=%d" %(str(self.name), int(response["orderNumber"])))
             else:
-                logging.debug("%s _sell error response=%s" %(str(self.name), str(response)) )
+                err_msg = "%s _sell error responsr=%s" %(str(self.name), str(response))
+                logging.error(err_msg)
+                raise TradeException(err_msg)
         else:
             raise TradeException("JSON error")
 
