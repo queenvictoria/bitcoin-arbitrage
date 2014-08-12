@@ -76,7 +76,9 @@ class PrivateBittrexUSD(Market):
         if response:
             if "success" in response:
                 if bool(response["success"]) != True:
-                    logging.debug("_buy:error, response=%s" % (str(response)) )
+                    err_msg = "_buy:error, response=%s" % (str(response))
+                    logging.error(err_msg)
+                    raise TradeException(err_msg)
             else:
                 raise TradeException("JSON error, 'success' tag missing")
         else:
@@ -89,7 +91,9 @@ class PrivateBittrexUSD(Market):
         if response:
             if "success" in response:
                 if bool(response["success"]) != True:
-                    logging.debug("_sell:error, response=%s" % (str(response)) )
+                    err_msg = "_sell:error, response=%s" % (str(response)) 
+                    logging.error(err_msg)
+                    raise TradeException(err_msg)
             else:
                 raise TradeException("JSON error, 'success' tag missing")
         else:
