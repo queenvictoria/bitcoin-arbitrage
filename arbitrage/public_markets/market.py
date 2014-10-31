@@ -46,7 +46,7 @@ class Market(object):
             self.convert_to_usd()
             self.depth_updated = time.time()
         except (urllib.error.HTTPError, urllib.error.URLError) as e:
-            logging.error("HTTPError, can't update market: %s" % self.name)
+            logging.error("HTTPError, can't update market: %s code=%d reason=%s headers=%s" % (self.name, e.code, e.reason, e.headers))
         except Exception as e:
             logging.error("Can't update market: %s - %s" % (self.name, str(e)))
 
