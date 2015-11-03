@@ -177,8 +177,18 @@ class PrivateANXProUSD(PrivateANXPro):
         response = self._send_request(self.info_path, params)
         if response and "result" in response and response["result"] == "success":
             self.btc_balance = self._from_int_amount(int(
-                response["return"]["Wallets"]["BTC"]["Balance"]["value_int"]))
+                response["data"]["Wallets"]["BTC"]["Balance"]["value_int"]))
             self.usd_balance = self._from_int_price(int(
-                response["return"]["Wallets"]["USD"]["Balance"]["value_int"]))
+                response["data"]["Wallets"]["USD"]["Balance"]["value_int"]))
+
+            funds = response["data"]["Wallets"]
+            if self.pair1_name in funds:
+                self.pair1_balance = self._from_int_amount(
+                    int(funds[self.pair1_name]["Balance"]["value_int"])
+                    )
+            if self.pair2_name in funds:
+                self.pair2_balance = self._from_int_amount(
+                    int(funds[self.pair2_name]["Balance"]["value_int"])
+                    )
             return 1
         return None
