@@ -26,7 +26,7 @@ class PrivateANXPro(Market):
         self.open_orders_url = {"method": "POST", "url":
                                 "https://anxpro.com/api/2/generic/private/orders"}
         self.info_url = {"method": "POST", "url":
-                         "https://anxpro.com/api/2/generic/private/info"}
+                         "https://anxpro.com/api/2/money/info"}
         self.withdraw_url = {"method": "POST", "url":
                         "https://anxpro.com/api/2/generic/bitcoin/send_simple"}
         self.deposit_url = {"method": "POST", "url":
