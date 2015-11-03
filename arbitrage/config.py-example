@@ -81,6 +81,7 @@ smtp_login = 'FIXME'
 smtp_passwd = 'FIXME'
 smtp_from = 'FIXME'
 smtp_to = 'FIXME'
+smtp_tls = False
 
 #### XMPP Observer
 xmpp_jid = "FROM@jabber.org"

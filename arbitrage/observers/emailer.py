@@ -15,9 +15,15 @@ Subject: %(subject)s
 """ % locals()
     try:
         smtpObj = smtplib.SMTP(config.smtp_host)
+        if config.smtp_tls:
+            smtpObj.starttls()
+        if config.smtp_passwd:
+            smtpObj.login(config.smtp_login, config.smtp_passwd)
+
         smtpObj.sendmail(_from, [_to], mime_message)
-    except smtplib.SMTPException:
+    except smtplib.SMTPException as err:
         logging.warn("Unable to send email")
+        logging.warn("%s: %s" % (err.smtp_code, err.smtp_error))
 
 class Emailer(Observer):
     def opportunity(self, profit, volume, buyprice, kask, sellprice, kbid, perc,
