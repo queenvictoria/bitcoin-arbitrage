@@ -49,6 +49,7 @@ class Market(object):
             self.depth_updated = time.time()
         except (urllib.error.HTTPError, urllib.error.URLError) as e:
             logging.error("HTTPError, can't update market: %s code=%d reason=%s headers=%s" % (self.name, e.code, e.reason, e.headers))
+            log_exception(logging.DEBUG)
         except Exception as e:
             logging.error("Can't update market: %s - %s" % (self.name, str(e)))
             log_exception(logging.DEBUG)

@@ -7,13 +7,10 @@ trading for altcoin crosses against BTC (such as quarkcoin, dogecoin
 and maxcoin etc.).
 
 Currently supported exchanges to get data:
- - MtGox (USD, EUR)
- - Bitstamp (USD, ~EUR)
+ - Bitstamp (USD)
  - Bitcoin24 (EUR)
- - Bitfloor (USD)
- - Bitcoin-Central (EUR)
+ - Paymium (EUR)
  - BTC-e (USD, EUR)
- - Intersango (EUR)
  - Bitfinex (USD)
  - Kraken (USD, EUR)
  - Bitcoin-Central (EUR)
@@ -24,9 +21,10 @@ Currently supported exchanges to get data:
  - Bter (BTC)
  - Bittrex (BTC)
  - Poloniex (BTC)
+ - OkCoin (CNY)
+ - CampBX (USD)
 
 Currently supported exchanges to automate trade:
- - MtGox (EUR, USD)
  - Bitstamp (USD)
  - Bitcoin-Central (EUR) - (API changed)
  - Cryptsy (BTC)
@@ -36,6 +34,7 @@ Currently supported exchanges to automate trade:
  - Bter (BTC)
  - Bittrex (BTC)
  - Poloniex (BTC)
+ - Paymium (EUR) - (API changed)
 
 Donation are always welcome: **1Maxime7WnLqq24hasMA872JZ4VBGMDbKk**
 
@@ -104,7 +103,7 @@ Run tests
    * icbit
    * BitFinex
  * Update order books with a WebSocket client for supported exchanges
-   (MtGox, Bitcoin-Central)
+   (MtGox, Paymium)
  * Better history handling for observer "HistoryDumper" (Redis ?)
  * Move EUR / USD from a market to an other:
    * Coupons

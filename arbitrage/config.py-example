@@ -4,11 +4,14 @@
 # "BtceUSD", "BitfloorUSD", "BitstampUSD"]
 markets = ["BtceUSD", "BitstampUSD", "CampBXUSD", "PaymiumUSD",
 	"Bitcoin24USD"]
+# ["PaymiumEUR", "Bitcoin24EUR", "BtceUSD", "BitstampUSD", "KrakenEUR",
+#  "KrakenUSD", "CampBXUSD", "BitfinexUSD"]
 
+markets = ["PaymiumEUR", "Bitcoin24EUR", "BtceUSD", "BitstampUSD", "KrakenEUR",
+           "KrakenUSD", "CampBXUSD", "BitfinexUSD"]
 # observers if any
-# ["Logger", "TraderBot", "TraderBotSim", "HistoryDumper", "Emailer"]
-# !!! Warning, TradeBotAltCoin is a live trading robot set for Cryptsy and Coins-E as configured here !!!
-observers = ["Logger", "TraderBotAltCoin"]
+# ["Logger", "DetailedLogger", "TraderBot", "TraderBotSim", "HistoryDumper", "Emailer"]
+observers = ["Logger"]
 
 market_expiration_time = 120  # in seconds: 2 minutes
 

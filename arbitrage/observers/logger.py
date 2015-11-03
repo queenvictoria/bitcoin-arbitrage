@@ -11,4 +11,5 @@ class Logger(Observer):
         
     def opportunity(self, profit, volume, buyprice, kask, sellprice, kbid, perc,
                     weighted_buyprice, weighted_sellprice):
-        logging.info("profit: %.8f %s with volume: %.8f %s - buy at %.8f (%s) sell at %.8f (%s) ~%.2f%%" % (profit, self.pair2_name, volume, self.pair1_name, buyprice, kask, sellprice, kbid, perc))
+        logging.info("profit: %.8f %s with volume: %.8f %s - buy at %.8f (%s) sell at %.8f (%s) ~%.2f%%" 
+            % (profit, self.pair2_name, volume, self.pair1_name, buyprice, kask, sellprice, kbid, perc))
