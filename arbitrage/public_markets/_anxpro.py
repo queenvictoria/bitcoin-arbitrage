@@ -46,13 +46,10 @@ class ANXPro(Market):
     def sort_and_format(self, l, reverse=False):
         # [{"amount_int": "11229900", "price": "690.05373",
         # "amount": "0.11229900", "price_int": "69005373"},
-        # l.sort(key=lambda x: float(x['price']), reverse=reverse)
-        l = sorted(l, key=lambda k: k['price'], reverse=reverse)
+        l.sort(key=lambda x: float(x['price']), reverse=reverse)
 
-        # l.sort(key=lambda x: float(x[0]), reverse=reverse)
         r = []
         for i in l:
-            # sys.stderr.write("%f\n" % float(i['price']))
             r.append({'price': float(i['price']), 'amount': float(i['amount'])})
         return r
 
