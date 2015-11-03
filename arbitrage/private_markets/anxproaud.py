@@ -21,16 +21,12 @@ import config
 class PrivateANXPro(Market):
     def __init__(self):
         super().__init__()
-        self.order_url = {"method": "POST", "url":
-                          "https://anxpro.com/api/2/generic/private/order/result"}
-        self.open_orders_url = {"method": "POST", "url":
-                                "https://anxpro.com/api/2/generic/private/orders"}
-        self.info_url = {"method": "POST", "url":
-                         "https://anxpro.com/api/2/money/info"}
-        self.withdraw_url = {"method": "POST", "url":
-                        "https://anxpro.com/api/2/generic/bitcoin/send_simple"}
-        self.deposit_url = {"method": "POST", "url":
-                            "https://anxpro.com/api/2/generic/bitcoin/address"}
+        self.base_url = "https://anxpro.com/api/2/"
+        self.order_path = {"method": "POST", "path": "generic/private/order/result"}
+        self.open_orders_path = {"method": "POST", "path": "generic/private/orders"}
+        self.info_path = {"method": "POST", "path": "money/info"}
+        self.withdraw_path = {"method": "POST", "path": "generic/bitcoin/send_simple"}
+        self.deposit_path = {"method": "POST", "path": "generic/bitcoin/address"}
 
         self.key = config.anxpro_api_key
         self.secret = config.anxpro_api_secret
@@ -96,8 +92,8 @@ class PrivateANXPro(Market):
             price = self._to_int_price(price, self.currency)
         amount = self._to_int_amount(amount)
 
-        self.buy_url["url"] = self._change_currency_url(
-            self.buy_url["url"], self.currency)
+        self.buy_path["path"] = self._change_currency_url(
+            self.buy_path["path"], self.currency)
 
         params = [("nonce", self._create_nonce()),
                   ("amount_int", str(amount)),
@@ -105,7 +101,7 @@ class PrivateANXPro(Market):
         if price:
             params.append(("price_int", str(price)))
 
-        response = self._send_request(self.buy_url, params)
+        response = self._send_request(self.buy_path, params)
         if response and "result" in response and \
            response["result"] == "success":
             return response["return"]
@@ -121,7 +117,7 @@ class PrivateANXPro(Market):
         params = [("nonce", self._create_nonce()),
                   ("amount_int", str(self._to_int_amount(amount))),
                   ("address", address)]
-        response = self._send_request(self.withdraw_url, params)
+        response = self._send_request(self.withdraw_path, params)
         if response and "result" in response and \
            response["result"] == "success":
             return response["return"]
@@ -129,7 +125,7 @@ class PrivateANXPro(Market):
 
     def deposit(self):
         params = [("nonce", self._create_nonce())]
-        response = self._send_request(self.deposit_url, params)
+        response = self._send_request(self.deposit_path, params)
         if response and "result" in response and \
            response["result"] == "success":
             return response["return"]
@@ -138,40 +134,45 @@ class PrivateANXPro(Market):
 class PrivateANXProAUD(PrivateANXPro):
     def __init__(self):
         super().__init__()
-        self.ticker_url = {"method": "GET", "url":
-                           "https://anxpro.com/api/2/BTCAUD/public/ticker"}
-        self.buy_url = {"method": "POST", "url":
-                        "https://anxpro.com/api/2/BTCAUD/private/order/add"}
-        self.sell_url = {"method": "POST", "url":
-                         "https://anxpro.com/api/2/BTCAUD/private/order/add"}
-        self.currency = "EUR"
+        self.ticker_path = {"method": "GET", "path": "BTCAUD/public/ticker"}
+        self.buy_path = {"method": "POST", "path": "BTCAUD/private/order/add"}
+        self.sell_path = {"method": "POST", "path": "BTCAUD/private/order/add"}
+        self.currency = "AUD"
 
     def get_info(self):
         params = [("nonce", self._create_nonce())]
-        response = self._send_request(self.info_url, params)
+        response = self._send_request(self.info_path, params)
         if response and "result" in response and response["result"] == "success":
             self.btc_balance = self._from_int_amount(int(
-                response["return"]["Wallets"]["BTC"]["Balance"]["value_int"]))
+                response["data"]["Wallets"]["BTC"]["Balance"]["value_int"]))
             self.aud_balance = self._from_int_price(int(
-                response["return"]["Wallets"]["AUD"]["Balance"]["value_int"]))
-            self.usd_balance = self.fc.convert(self.eur_balance, "AUD", "USD")
+                response["data"]["Wallets"]["AUD"]["Balance"]["value_int"]))
+            self.usd_balance = self.fc.convert(self.aud_balance, "AUD", "USD")
+            self.eur_balance = self.fc.convert(self.aud_balance, "AUD", "EUR")
+
+            funds = response["data"]["Wallets"]
+            if self.pair1_name in funds:
+                self.pair1_balance = self._from_int_amount(
+                    int(funds[self.pair1_name]["Balance"]["value_int"])
+                    )
+            if self.pair2_name in funds:
+                self.pair2_balance = self._from_int_amount(
+                    int(funds[self.pair2_name]["Balance"]["value_int"])
+                    )
             return 1
         return None
 
 class PrivateANXProUSD(PrivateANXPro):
     def __init__(self):
         super().__init__()
-        self.ticker_url = {"method": "GET", "url":
-                           "https://anxpro.com/api/2/BTCUSD/public/ticker"}
-        self.buy_url = {"method": "POST", "url":
-                        "https://anxpro.com/api/2/BTCUSD/private/order/add"}
-        self.sell_url = {"method": "POST", "url":
-                         "https://anxpro.com/api/2/BTCUSD/private/order/add"}
+        self.ticker_path = {"method": "GET", "path": "BTCUSD/public/ticker"}
+        self.buy_path = {"method": "POST", "path": "BTCUSD/private/order/add"}
+        self.sell_path = {"method": "POST", "path": "BTCUSD/private/order/add"}
         self.currency = "USD"
 
     def get_info(self):
         params = [("nonce", self._create_nonce())]
-        response = self._send_request(self.info_url, params)
+        response = self._send_request(self.info_path, params)
         if response and "result" in response and response["result"] == "success":
             self.btc_balance = self._from_int_amount(int(
                 response["return"]["Wallets"]["BTC"]["Balance"]["value_int"]))
