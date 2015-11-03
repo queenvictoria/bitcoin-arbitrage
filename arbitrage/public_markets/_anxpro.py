@@ -8,6 +8,7 @@ from .market import Market
 
 # http://docs.anxv2.apiary.io/#marketdata
 # v2 API is compatible with MtGox v2 API
+# http://docs.anxv3.apiary.io/
 # v3 API is current
 class ANXPro(Market):
     def __init__(self, currency, code):
