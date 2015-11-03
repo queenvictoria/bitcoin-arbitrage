@@ -61,13 +61,15 @@ class PrivateANXPro(Market):
         return amount / 100000.
 
     def _send_request(self, url, params, extra_headers=None):
-        urlparams = bytes(urllib.parse.urlencode(params), "UTF-8")
+        urlparams = urllib.parse.urlencode(dict(params))
+        secret_message = url["path"] + chr(0) + urlparams
         secret_from_b64 = base64.b64decode(bytes(self.secret, "UTF-8"))
-        hmac_secret = hmac.new(secret_from_b64, urlparams, hashlib.sha512)
+        hmac_secret = hmac.new(secret_from_b64, secret_message.encode("UTF-8"), hashlib.sha512)
+        hmac_sign = base64.b64encode(hmac_secret.digest())
 
         headers = {
             'Rest-Key': self.key,
-            'Rest-Sign': base64.b64encode(hmac_secret.digest()),
+            'Rest-Sign': hmac_sign.decode("UTF-8"),
             'Content-type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json, text/javascript, */*; q=0.01',
             'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
@@ -76,8 +78,8 @@ class PrivateANXPro(Market):
             for k, v in extra_headers.items():
                 headers[k] = v
         try:
-            req = urllib.request.Request(url['url'],
-                                         bytes(urllib.parse.urlencode(params),
+            req = urllib.request.Request(self.base_url + url['path'],
+                                         bytes(urlparams,
                                                "UTF-8"), headers)
             response = urllib.request.urlopen(req)
             if response.getcode() == 200:
