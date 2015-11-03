@@ -14,7 +14,7 @@ class ANXPro(Market):
     def __init__(self, currency, code):
         super().__init__(currency)
         self.code = code    # code is a currencypair
-        self.update_rate = 30
+        self.update_rate = 20
 
     def update_depth(self):
         # Currency Pairs http://docs.anxv2.apiary.io/#currency_pair

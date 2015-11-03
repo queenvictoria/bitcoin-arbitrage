@@ -12,7 +12,7 @@ class BTCMarkets(Market):
     def __init__(self, currency, instrument):
         super().__init__(currency)
         self.instrument = instrument # BTC, LTC
-        self.update_rate = 60
+        self.update_rate = 20
 
     def update_depth(self):
         url = "https://api.btcmarkets.net/market/%s/%s/orderbook" % (
