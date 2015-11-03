@@ -65,6 +65,9 @@ bittrex_api_secret = "FIXME"
 poloniex_api_key = "FIXME"
 poloniex_api_secret = "FIXME"
 
+anxpro_api_key = "FIXME"
+anxpro_api_secret = "FIXME"
+
 # SafeGuards
 max_tx_volume = 10000 # in BTC (or in terms of pair 1)
 min_tx_volume = 100 # in BTC (or in terms of pair 2)
